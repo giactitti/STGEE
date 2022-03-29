@@ -39,6 +39,13 @@ reducer: ee.Reducer.first()
 });
 
 
+//------------------------------------------
+/*var multiROC = require('users/gabrielenicolanapoli/Gully:multiROC');
+var susc=ee.FeatureCollection(suscValidC)
+var tt = multiROC.quality('gridcoll_classifier',susc,'lsd_bool')*/
+
+
+
 //------------------------------------------------
 
 var numbers=function(layer){
@@ -53,7 +60,8 @@ var numbers=function(layer){
   var AUC=ROCobject['AUC']
   //print(AUC)
 
-  });
+  //print(ee.Number(ROC_best.get('ROC_best')))
+  
   return {'chartROC':chartROC,'ROC_best':ROC_best,'AUC':AUC}
   return ROCobject
 }
@@ -64,12 +72,21 @@ var numbers=function(layer){
 
 //-------------------------------------------------
 var show=function(){
-var DY = require('users/gabrielenicolanapoli/Gully:display');
+var DY = require('users/gabrielenicolanapoli/Gully:display_5');
 
 var images={'Calibration map':suscFitImage,
+  //'TrueFalse': tptf,
   'Prediction map': suscPredImage
 }
+
+//Map.addLayer(images['SIfit'])
+//print(truefalse)
+//print(truefalse.filter(ee.Filter.eq('tptf',0)))
+
+//var splitPanel=DY.splitt(images,trainAccuracy,chartROC,ROC_best,AUC)
 var splitPanel=view(images,trainAccuracy,suscFit)
+
+//ui.root.widgets().reset([splitPanel]);
 }
 
 
@@ -98,16 +115,15 @@ var view=function(images,trainAccuracy,suscFit){
     //rightMap.addLayer(num['tptf'],colorizedVis1,'Confusion map')
   }});
 
+
   rightMap.add(button2)
 
   //rightMap.add(createview())
   rightMap.add(DY.createLegend(colorizedVis,colorizedVis1))
   rightMap.setControlVisibility(true);
   rightMap.addLayer(images['Calibration map'],colorizedVis,'Calibration map')
-  
-  //rightMap.addLayer(images['TrueFalse'],colorizedVis1,'TrueFalse')
+
   rightMap.addLayer(images['Prediction map'],colorizedVis,'Prediciton map')
-  
 
   var linker = ui.Map.Linker([rightMap,leftMap]);
 
