@@ -1,5 +1,5 @@
 var gridcoll=ee.FeatureCollection('projects/ee-stgee/assets/gridcoll_05-02-2022');
-var prediction = ee.FeatureCollection('projects/ee-stgee/assets//gridcoll_secwater_modified_08-02-2022');
+var prediction = ee.FeatureCollection('projects/ee-stgee/assets/gridcoll_secwater_modified_08-02-2022');
 //--------------------------------------------------
 //Explanatory
 var ClassProperty = 'bool_str';
