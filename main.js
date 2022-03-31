@@ -57,9 +57,7 @@ var numbers=function(layer){
   var chartROC = ROCobject['chartROC']
   //print(chartROC)
   var ROC_best=ROCobject['ROC_best']
-  print(ROC_best)
   var AUC=ROCobject['AUC']
-  print(AUC)
   
   var truefalse = ROC.binary('gridcoll_classifier',layer,'lsd_bool', ROC_best);
   
