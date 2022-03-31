@@ -33,7 +33,7 @@ reducer: ee.Reducer.first()
 
 //-------------------------------------------------
 //spatial cross-validation
-var SCV = require('users/gabrielenicolanapoli/Gully:SCV');
+var SCV = require('users/giacomotitti/STGEE:SCV');
 var CV = SCV.SCV(gridcoll,['S_mean', 'S_std','Prec_mean','Prec_std','NDVI_mean','NDVI_std'
   ,'NDWI_mean','NDWI_std','HCv_mean','HCv_std','VCv_mean','VCv_std'],2500)
 var gridScv=CV['cov']
@@ -51,7 +51,7 @@ reducer: ee.Reducer.first()
 //------------------------------------------------
 
 var numbers=function(layer){
-  var ROC = require('users/gabrielenicolanapoli/Gully:ROCold');
+  var ROC = require('users/giacomotitti/STGEE:ROCold');
   var ROCobject = ROC.quality('gridcoll_classifier',layer,'lsd_bool');
   
   var chartROC = ROCobject['chartROC']
@@ -71,7 +71,7 @@ var numbers=function(layer){
 
 //-------------------------------------------------
 var show=function(){
-var DY = require('users/gabrielenicolanapoli/Gully:display_5');
+var DY = require('users/giacomotitti/STGEE:display_5');
 
 var images={'Calibration map':suscFitImage,
   'Validation map':suscValidImage,
@@ -86,7 +86,8 @@ var splitPanel=view(images,trainAccuracy,gridScv,suscValid,suscFit)
 
 //--------------------------------------------
 var view=function(images,trainAccuracy,gridScv,suscValid,suscFit){
-  var DY = require('users/gabrielenicolanapoli/Gully:display_5');
+  var DY = require('users/giacomotitti/STGEE:display_5');
+  
   var paletteone = ['d10e00ff', 'df564dff', 'eb958fff', 'f0b2aeff', 'ffffffff',
     'dbeaddff', '4e9956ff', '1b7b25ff', '006b0bff']
     
@@ -117,7 +118,6 @@ var view=function(images,trainAccuracy,gridScv,suscValid,suscFit){
   rightMap.add(button1)
   rightMap.add(button2)
   
-  //rightMap.add(createview())
   rightMap.add(DY.createLegend(colorizedVis,colorizedVis1))
   rightMap.setControlVisibility(true);
   rightMap.addLayer(images['Calibration map'],colorizedVis,'Calibration map')
