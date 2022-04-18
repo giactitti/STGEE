@@ -82,27 +82,45 @@ exports.createLegend=function(colorizedVis,colorizedVis1) {
 
   //////////////////////////////
 exports.createnumbers =  function(trainAccuracy,chartROC,ROC_best,AUC) {
+  
+  // Create a button to hide the panel.
+  var button3 = ui.Button({
+    style:{position: 'top-center',stretch:'horizontal'},
+    label: 'Close',
+  });
+  
+   // Hide variables
+  var hideVariables = function() {
+  panel.style().set({
+    shown: false
+  });
+  return;
+  };
+  
+  //Register the function to the button click event.
+  button3.onClick(hideVariables);
+  
   var panel = ui.Panel({style: {width: '280px',position: 'bottom-right',maxHeight:'15em'}})//,maxHeight:'200px'
     .add(ui.Label({value:'Resubstitution error matrix: '+trainAccuracy.getInfo(),style: {fontSize: '10px'}}))
     .add(ui.Label({value:'Training overall accuracy: '+trainAccuracy.accuracy().getInfo(),style: {fontSize: '10px'}}))
     .add(ui.Label({value:'Area under curve: '+AUC.getInfo(),style: {fontSize: '10px'}}))
     .add(ui.Label({value:'Best ROC point cutoff: '+ROC_best.getInfo(),style: {fontSize: '10px'}}));
 
-  // Add the panel to the ui.root.
   var panel1=ui.Panel(chartROC)
   panel.add(panel1)
+  .add(button3);
   return panel
-
+    
   }
-
+    
   //create the first panel legend
 exports.createview = function() {
     var legend = ui.Panel({ style: {height: '70px',width: '220px', position: 'top-left' }})
-
+    
     // Create legend title
     var legendTitle = ui.Label({value: 'View',style: {fontWeight: 'bold',
       fontSize: '13px', margin: '0 0 4px 0',padding: '0'}});
       legend.add(legendTitle);
-
+  
     return legend
   }
