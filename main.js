@@ -51,7 +51,7 @@ reducer: ee.Reducer.first()
 //------------------------------------------------
 
 var numbers=function(layer){
-  var ROC = require('users/giacomotitti/STGEE:ROCold');
+  var ROC = require('users/giacomotitti/STGEE:ROC');
   var ROCobject = ROC.quality('gridcoll_classifier',layer,'lsd_bool');
   
   var chartROC = ROCobject['chartROC']
@@ -71,7 +71,7 @@ var numbers=function(layer){
 
 //-------------------------------------------------
 var show=function(){
-var DY = require('users/giacomotitti/STGEE:display_5');
+var DY = require('users/giacomotitti/STGEE:display');
 
 var images={'Calibration map':suscFitImage,
   'Validation map':suscValidImage,
@@ -86,7 +86,7 @@ var splitPanel=view(images,trainAccuracy,gridScv,suscValid,suscFit)
 
 //--------------------------------------------
 var view=function(images,trainAccuracy,gridScv,suscValid,suscFit){
-  var DY = require('users/giacomotitti/STGEE:display_5');
+  var DY = require('users/giacomotitti/STGEE:display');
   
   var paletteone = ['d10e00ff', 'df564dff', 'eb958fff', 'f0b2aeff', 'ffffffff',
     'dbeaddff', '4e9956ff', '1b7b25ff', '006b0bff']
@@ -104,20 +104,27 @@ var view=function(images,trainAccuracy,gridScv,suscValid,suscFit){
   
   var rightMap = ui.Map();
   
-  var button1 = ui.Button({style:{position: 'bottom-right'},label: 'Run Validation  ROC-analysis',onClick: function() {
+  var button1 = ui.Button({style:{position: 'bottom-right', width: '135px', padding: '2px', margin: '3px'},label: 'Run Validation',onClick: function() {
     var num=numbers(suscValid);
     rightMap.add(DY.createnumbers(trainAccuracy,num['chartROC'],num['ROC_best'],num['AUC']));
-    rightMap.addLayer(num['tptf'],colorizedVis1,'Confusion map')
+    rightMap.addLayer(num['tptf'],colorizedVis1,'Confusion map of Validation')
   }});
   
-  var button2 = ui.Button({style:{position: 'bottom-right'},label: 'Run Calibration ROC-analysis',onClick: function() {
+  var button2 = ui.Button({style:{position: 'bottom-right', width: '135px', padding: '2px', margin: '3px'},label: 'Run Calibration',onClick: function() {
     var num=numbers(suscFit);
     rightMap.add(DY.createnumbers(trainAccuracy,num['chartROC'],num['ROC_best'],num['AUC']));
+    rightMap.addLayer(num['tptf'],colorizedVis1,'Confusion map of Calibration')
   }});
-
-  rightMap.add(button1)
-  rightMap.add(button2)
   
+  var panel5 = ui.Panel({layout: ui.Panel.Layout.flow('horizontal'),
+  style:{ padding: '0px', margin: '0px',
+  position: 'bottom-right'}}).add(button1).add(button2)
+  
+  rightMap.add(panel5)
+
+
+  
+  //rightMap.add(createview())
   rightMap.add(DY.createLegend(colorizedVis,colorizedVis1))
   rightMap.setControlVisibility(true);
   rightMap.addLayer(images['Calibration map'],colorizedVis,'Calibration map')
