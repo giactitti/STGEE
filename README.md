@@ -23,3 +23,9 @@ From [here](https://giacomotitti.users.earthengine.app/view/stgee) you can run o
 The STGEE has been authored by Giacomo Titti, Gabriele Nicola Napoli and Luigi Lombardo
 
 For any request, comment and suggestion, please write to me: giacomotitti@gmail.com
+
+## Cite
+
+Please cite us:
+
+Titti, G., Nicola Napoli, G., Lombardo, L.. (2022). giactitti/STGEE: STGEE v1.1 (v1.1). Zenodo. https://doi.org/10.5281/zenodo.6471966
