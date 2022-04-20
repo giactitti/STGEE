@@ -16,7 +16,7 @@ SRT is a collector and spatial reducer of data from GEE available dataset. It al
 
 ## Run application
 
-From [Here](https://code.earthengine.google.com/?scriptPath=users%2Fgiacomotitti%2FSTGEE%3Amain) you can run our application.
+From [here](https://giacomotitti.users.earthengine.app/view/stgee) you can run our application. See the source code from [here](https://code.earthengine.google.com/?scriptPath=users%2Fgiacomotitti%2FSTGEE%3Amain)
 
 ## Contacts
 
