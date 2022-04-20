@@ -14,10 +14,12 @@ SRT is a collector and spatial reducer of data from GEE available dataset. It al
 
 ![image](https://user-images.githubusercontent.com/59020464/163784965-3cff0b6d-0b0a-46f2-9e3f-7e3a95a39bca.png)
 
-## Run application
+## Run/Edit application
 
-From [Here](https://code.earthengine.google.com/?scriptPath=users%2Fgiacomotitti%2FSTGEE%3Amain) you can run our application.
+From [here](https://giacomotitti.users.earthengine.app/view/stgee) you can run our application. See the source code from [here](https://code.earthengine.google.com/?scriptPath=users%2Fgiacomotitti%2FSTGEE%3Amain)
 
 ## Contacts
+
+The STGEE has been authored by Giacomo Titti, Gabriele Nicola Napoli and Luigi Lombardo
 
 For any request, comment and suggestion, please write to me: giacomotitti@gmail.com
