@@ -1,6 +1,6 @@
 # STGEE
 
-Susceptibility Tool for Google Earth Engine (STGEE) is a tool for spatial susceptibility analysis. It allows to calibrate, cross-validate and predict susceptiblity of a selected study area using Random Forest model. More details about the application can be found [here](https://eartharxiv.org/repository/view/3173/)
+Susceptibility Tool for Google Earth Engine (STGEE) is a tool for spatial susceptibility analysis. It allows to calibrate, cross-validate and predict susceptiblity of a selected study area using Random Forest model. More details about the application can be found in the article: [link to the pre-print](https://eartharxiv.org/repository/view/3173/).
 
 ## Run/Edit application
 
