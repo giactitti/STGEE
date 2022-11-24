@@ -4,7 +4,7 @@ Susceptibility Tool for Google Earth Engine (STGEE) is a tool for spatial suscep
 
 ## Run/Edit application
 
-From [here](https://giacomotitti.users.earthengine.app/view/stgee) you can run our application. See the source code from [here](https://code.earthengine.google.com/ded17bb2a42c791d39eddff2ae3d6494)
+From [here](https://giacomotitti.users.earthengine.app/view/stgee) you can run our application. See the source code from [here](https://code.earthengine.google.com/dd3d9e6e5905cd98e73767d690d1ca6c)
 
 ## How to use
 
