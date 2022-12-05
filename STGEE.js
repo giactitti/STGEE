@@ -29,15 +29,19 @@
 // INPUT
 //--------------------------------------------------------------------------------------------
 // vector file with column predictors and binomial event column
-var predictors_shp = 'projects/ee-stgee/assets/gridcoll_05-02-2022';
+var predictors_shp = 'projects/stgee-dataset/assets/DataDemo';
 // name of the binomial event column
-var binomial_event = 'bool_str';
+var binomial_event = 'lsd';
 // predictors column name
-var predictors_column_name = ['S_mean','S_std','Prec_mean','Prec_std','NDVI_mean','NDVI_std','NDWI_mean','NDWI_std','HCv_mean','HCv_std','VCv_mean','VCv_std'];
+var predictors_column_name = ['Rlf_mean','Slope_mean','VCv_mean','HCv_mean','NDVI_mean','litho_0','litho_1','litho_2'];
 // vector file with column predictors of the prediction area (transferability)
-var prediction_area_shp = 'projects/ee-stgee/assets/gridcoll_secwater_modified_08-02-2022';
+var prediction_area_shp = 'projects/stgee-dataset/assets/DataDemoPrediction';
+// scale of the spatial grid for the spatial cross-validation
+var scale_spatial_grid = 30000
+// fid, feature id column name (it must be integer)
+var fid = 'fid'
 
 // RUN function
 //---------------------------------------------------------------------------------------------
-var RUN=require('users/giacomotitti/STGEE:run');
-RUN.runner(predictors_shp,binomial_event,predictors_column_name,prediction_area_shp);
+var RUN=require('users/giacomotitti/STGEE_dev:run');
+RUN.runner(predictors_shp,binomial_event,predictors_column_name,prediction_area_shp,scale_spatial_grid,fid);

@@ -1,10 +1,10 @@
 # STGEE
 
-Susceptibility Tool for Google Earth Engine (STGEE) is a tool for spatial susceptibility analysis. It allows to calibrate, cross-validate and predict susceptiblity of a selected study area using Random Forest model. More details about the application can be found in the article: [link to the pre-print](https://eartharxiv.org/repository/view/3173/).
+Susceptibility Tool for Google Earth Engine (STGEE) is a tool for spatial susceptibility analysis. It allows to calibrate, cross-validate and predict susceptiblity of a selected study area using Random Forest model. More details about the application can be found in the article: [link to the article](https://doi.org/10.1016/j.jag.2022.103089).
 
 ## Run/Edit application
 
-From [here](https://giacomotitti.users.earthengine.app/view/stgee) you can run our application. See the source code from [here](https://code.earthengine.google.com/b76fb3cea835fadbe2482a49919aedd8)
+From [here](https://giacomotitti.users.earthengine.app/view/stgee) you can run our application. See the source code from [here](https://code.earthengine.google.com/7c8d8638fa85dbff9c267761a1530087)
 
 ## How to use
 
@@ -28,4 +28,6 @@ For any request, comment and suggestion, please write to me: giacomotitti@gmail.
 
 Please cite us:
 
-Titti, G., Nicola Napoli, G., Lombardo, L.. (2022). giactitti/STGEE: STGEE v1.1 (v1.1). Zenodo. https://doi.org/10.5281/zenodo.6471966
+- Titti, G., Nicola Napoli, G., Lombardo, L.. (2022). giactitti/STGEE: STGEE v1.1 (v1.1). Zenodo. https://doi.org/10.5281/zenodo.6471966
+- Titti, G., Nicola Napoli, G., Conoscenti, C., Lombardo, L.. (2022) Cloud-based interactive susceptibility modeling of gully erosion in Google Earth Engine. International Journal of Applied Earth Observation and Geoinformation, 115. [DOI 10.1016/j.jag.2022.103089](https://doi.org/10.1016/j.jag.2022.103089)
+

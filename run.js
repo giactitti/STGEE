@@ -22,9 +22,11 @@
  ***************************************************************************
 */
 
-exports.runner = function(predictors_shp,binomial_event,column_names,prediction_area_shp){
+exports.runner = function(predictors_shp,binomial_event,column_names,prediction_area_shp,spatial_CV_scale,fid){
   var gridcoll=ee.FeatureCollection(predictors_shp);
   var prediction = ee.FeatureCollection(prediction_area_shp);
+  
+  Map.centerObject(gridcoll,8);
   //--------------------------------------------------
   //Explanatory
   var ClassProperty = binomial_event;
@@ -37,10 +39,10 @@ exports.runner = function(predictors_shp,binomial_event,column_names,prediction_
   });
   
   var gridcoll2 = gridcoll_classifier.setOutputMode('PROBABILITY');
-  var suscFit = gridcoll.classify(gridcoll2,'gridcoll_classifier');
+  var suscFit = gridcoll.classify(gridcoll2,'SI').select([fid,binomial_event,'SI']);
   
   var suscFitImage = suscFit.reduceToImage({
-  properties: ['gridcoll_classifier'],
+  properties: ['SI'],
   reducer: ee.Reducer.first()
   });
   
@@ -48,41 +50,36 @@ exports.runner = function(predictors_shp,binomial_event,column_names,prediction_
   
   //-------------------------------------------------
   //Prediction
-  var suscPred = prediction.classify(gridcoll2,'gridcoll_classifier');
-  
+  var suscPred = prediction.classify(gridcoll2,'SI').select([fid,binomial_event,'SI']);
   var suscPredImage = suscPred.reduceToImage({
-  properties: ['gridcoll_classifier'],
+  properties: ['SI'],
   reducer: ee.Reducer.first()
   });
   
   //-------------------------------------------------
   //spatial cross-validation
-  var SCV = require('users/giacomotitti/STGEE:SCV');
-  var CV = SCV.SCV(gridcoll,column_names,2500)
+  var SCV = require('users/giacomotitti/STGEE_dev:SCV');
+  var CV = SCV.SCV(gridcoll,column_names,spatial_CV_scale,binomial_event,fid)
   var gridScv=CV['cov']
-  var suscValidC=CV['susc']
-  
-  var suscValid = ee.FeatureCollection(suscValidC)
+  var suscValid=CV['susc'];
   
   //---------------------------------------------
   //ROC of SCV
   var suscValidImage = suscValid.reduceToImage({
-  properties: ['gridcoll_classifier'],
+  properties: ['SI'],
   reducer: ee.Reducer.first()
   });
   
   //------------------------------------------------
-  
   var numbers=function(layer){
-    var ROC = require('users/giacomotitti/STGEE:ROC');
-    var ROCobject = ROC.quality('gridcoll_classifier',layer,'lsd_bool');
+    var ROC = require('users/giacomotitti/STGEE_dev:ROC');
+    var ROCobject = ROC.quality('SI',layer,binomial_event);
     
     var chartROC = ROCobject['chartROC']
-    //print(chartROC)
     var ROC_best=ROCobject['ROC_best']
     var AUC=ROCobject['AUC']
     
-    var truefalse = ROC.binary('gridcoll_classifier',layer,'lsd_bool', ROC_best);
+    var truefalse = ROC.binary('SI',layer,binomial_event, ROC_best);
     
     var tptf = truefalse.reduceToImage({
     properties: ['tptf'],
@@ -94,35 +91,26 @@ exports.runner = function(predictors_shp,binomial_event,column_names,prediction_
   
   //-------------------------------------------------
   var show=function(){
-  var DY = require('users/giacomotitti/STGEE:display');
-  
+  var DY = require('users/giacomotitti/STGEE_dev:display');
   var images={'Calibration map':suscFitImage,
     'Validation map':suscValidImage,
-    //'TrueFalse': tptf,
     'Prediction map': suscPredImage
   }
-  
   var splitPanel=view(images,trainAccuracy,gridScv,suscValid,suscFit)
-  
   }
-  
   
   //--------------------------------------------
   var view=function(images,trainAccuracy,gridScv,suscValid,suscFit){
-    var DY = require('users/giacomotitti/STGEE:display');
+    var DY = require('users/giacomotitti/STGEE_dev:display');
     
     var paletteone = ['d10e00ff', 'df564dff', 'eb958fff', 'f0b2aeff', 'ffffffff',
       'dbeaddff', '4e9956ff', '1b7b25ff', '006b0bff']
-      
     var paletteone1 = ['D10E00','DF564D','DBEADD','006B0B']
-    
-    var colorizedVis = {min: 0.0,max: 1.0,palette: paletteone.reverse()};
+    var colorizedVis = {min: 0.0 ,max: 0.6 ,palette: paletteone.reverse()};
     var colorizedVis1 = {min: 0.0,max: 3.0,palette: paletteone1.reverse()}
-  
     var leftMap = ui.Map();
     leftMap.add(DY.createLegend(colorizedVis,colorizedVis1))
     leftMap.setControlVisibility(true);
-    //leftMap.add(createview())
     var leftSelector = DY.addLayerSelector(leftMap, 0,images,colorizedVis);
     
     var rightMap = ui.Map();
@@ -145,15 +133,13 @@ exports.runner = function(predictors_shp,binomial_event,column_names,prediction_
     
     rightMap.add(panel5)
   
-  
-    
     //rightMap.add(createview())
     rightMap.add(DY.createLegend(colorizedVis,colorizedVis1))
     rightMap.setControlVisibility(true);
-    rightMap.addLayer(images['Calibration map'],colorizedVis,'Calibration map')
-    rightMap.addLayer(images['Validation map'],colorizedVis,'Validation map')
-    rightMap.addLayer(images['Prediction map'],colorizedVis,'Prediciton map')
-    rightMap.addLayer(gridScv,{},'Spatial CV grid')
+    rightMap.addLayer(images['Calibration map'],colorizedVis,'Calibration map',true)
+    rightMap.addLayer(images['Validation map'],colorizedVis,'Validation map',false)
+    rightMap.addLayer(images['Prediction map'],colorizedVis,'Prediciton map',false)
+    rightMap.addLayer(gridScv,{},'Spatial CV grid',false)
     
     var linker = ui.Map.Linker([rightMap,leftMap]);
     
@@ -165,17 +151,16 @@ exports.runner = function(predictors_shp,binomial_event,column_names,prediction_
     });
     
     ui.root.widgets().reset([splitPanel]);  
-    leftMap.setCenter(13.1, 37.72604, 12);
+    leftMap.centerObject(gridcoll,8);
     
   }
   
-  
   //-------------------------------------------------
   
-  Map.addLayer(gridcoll,{},'Study area')
-  Map.addLayer(prediction,{},'Prediction area')
+  Map.addLayer(gridcoll,{},'Study area',false)
+  Map.addLayer(prediction,{},'Prediction area',false)
   
-  Map.setCenter(13.1, 37.72604, 12);
+  Map.centerObject(gridcoll,8);
     
   var button = ui.Button({
     label: 'Run analysis',
@@ -185,7 +170,4 @@ exports.runner = function(predictors_shp,binomial_event,column_names,prediction_
   });
   
   Map.add(button)
-  
-  //-------------------------------------------------
-  //show()
 }
