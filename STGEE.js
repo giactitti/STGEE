@@ -36,8 +36,11 @@ var binomial_event = 'bool_str';
 var predictors_column_name = ['S_mean','S_std','Prec_mean','Prec_std','NDVI_mean','NDVI_std','NDWI_mean','NDWI_std','HCv_mean','HCv_std','VCv_mean','VCv_std'];
 // vector file with column predictors of the prediction area (transferability)
 var prediction_area_shp = 'projects/ee-stgee/assets/gridcoll_secwater_modified_08-02-2022';
+var scale_spatial_grid = 30000
+// fid, feature id column name (it must be integer)
+var fid = 'fid'
 
 // RUN function
 //---------------------------------------------------------------------------------------------
 var RUN=require('users/giacomotitti/STGEE:run');
-RUN.runner(predictors_shp,binomial_event,predictors_column_name,prediction_area_shp);
+RUN.runner(predictors_shp,binomial_event,predictors_column_name,prediction_area_shp,scale_spatial_grid,fid);
